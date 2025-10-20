@@ -241,7 +241,7 @@ Este projeto está sob a licença **MIT**. Veja o arquivo `LICENSE` para mais de
 
 ## 👥 Autor
 
-**Seu Nome** – [@seu-usuario](https://github.com/seu-usuario)
+**Seu Nome** – [@diandrade](https://github.com/diandrade)
 
 ---
 
