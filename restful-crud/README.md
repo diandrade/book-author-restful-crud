@@ -1,59 +1,263 @@
-# restful-crud
+# 📚 Sistema de Gerenciamento de Biblioteca - REST API
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Uma API RESTful desenvolvida com **Quarkus** para gerenciamento de autores e livros, seguindo os princípios da Clean Architecture.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## 🚀 Tecnologias
 
-## Running the application in dev mode
+- **Java 21** - Linguagem de programação
+- **Quarkus 3.28.4** - Framework Supersonic Subatomic Java
+- **Oracle Database** - Banco de dados relacional
+- **JAX-RS** - API REST
+- **JDBC** - Acesso a dados
+- **Maven** - Gerenciamento de dependências
 
-You can run your application in dev mode that enables live coding using:
+## 🏗️ Arquitetura
 
-```shell script
-./mvnw quarkus:dev
-```
+📦 umtdspo
+├── 📁 domain # Camada de Domínio
+│ ├── model # Entidades (Autor, Livro)
+│ ├── repository # Interfaces de repositório
+│ ├── service # Interfaces de serviço
+│ └── exception # Exceções de domínio
+├── 📁 application # Camada de Aplicação
+│ └── service # Implementações de serviço
+├── 📁 infrastructure # Camada de Infraestrutura
+│ ├── api/rest # Controllers REST
+│ ├── persistence # Implementações JDBC
+│ ├── config # Configurações
+│ └── exception # Exceções de infraestrutura
+└── 📁 interfaces # Camada de Interface
+├── controller # Controllers
+├── dto # Data Transfer Objects
+└── mapper # Mappers (DTO ↔ Domain)
+text
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+## 📋 Endpoints da API
 
-## Packaging and running the application
+### 👥 Autores
 
-The application can be packaged using:
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `POST` | `/authors` | Criar novo autor |
+| `GET` | `/authors` | Listar todos autores |
+| `GET` | `/authors/{id}` | Buscar autor por ID |
+| `GET` | `/authors/{id}/books` | Listar livros do autor |
+| `PUT` | `/authors/{id}` | Atualizar autor |
+| `DELETE` | `/authors/{id}` | Deletar autor |
 
-```shell script
-./mvnw package
-```
+### 📖 Livros
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `POST` | `/books` | Criar novo livro |
+| `GET` | `/books` | Listar todos livros |
+| `GET` | `/books/{id}` | Buscar livro por ID |
+| `GET` | `/books/author/{authorId}` | Listar livros por autor |
+| `PUT` | `/books/{id}` | Atualizar livro |
+| `DELETE` | `/books/{id}` | Deletar livro |
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+## 🛠️ Como Executar
 
-If you want to build an _über-jar_, execute the following command:
+### Pré-requisitos
+- Java 21
+- Maven 3.8+
+- Oracle Database
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
+### 1. Clone o repositório
+```bash
+git clone https://github.com/seu-usuario/restful-crud.git
+cd restful-crud
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+2. Configure o banco de dados
 
-## Creating a native executable
+Crie as tabelas no Oracle:
+sql
 
-You can create a native executable using:
+-- Tabela de Autores
+CREATE TABLE T_CREST_AUTOR (
+    ID_AUTOR NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    NM_AUTOR VARCHAR2(100) NOT NULL,
+    NM_EMAIL VARCHAR2(255) UNIQUE NOT NULL
+);
 
-```shell script
-./mvnw package -Dnative
-```
+-- Tabela de Livros
+CREATE TABLE T_CREST_LIVRO (
+    ID_LIVRO NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    NM_TITULO VARCHAR2(255) NOT NULL,
+    CD_ISBN VARCHAR2(13) NOT NULL,
+    ID_AUTOR NUMBER NOT NULL,
+    CONSTRAINT FK_LIVRO_AUTOR FOREIGN KEY (ID_AUTOR) REFERENCES T_CREST_AUTOR(ID_AUTOR)
+);
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+3. Configure a conexão
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+Edite src/main/resources/application.properties:
+properties
 
-You can then execute your native executable with: `./target/restful-crud-1.0.0-SNAPSHOT-runner`
+quarkus.datasource.db-kind=oracle
+quarkus.datasource.username=seu_usuario
+quarkus.datasource.password=sua_senha
+quarkus.datasource.jdbc.url=jdbc:oracle:thin:@localhost:1521:XE
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+4. Execute a aplicação
+bash
 
-## Related Guides
+# Modo desenvolvimento
+mvn quarkus:dev
 
-- Agroal - DB connection pool ([guide](https://quarkus.io/guides/datasource)): JDBC Datasources and connection pooling
-- JDBC Driver - Oracle ([guide](https://quarkus.io/guides/datasource)): Connect to the Oracle database via JDBC
+# Ou compile e execute
+mvn clean compile
+mvn quarkus:dev
+
+5. Acesse a API
+
+A API estará disponível em: http://localhost:8080
+📝 Exemplos de Uso
+Criar Autor
+http
+
+POST http://localhost:8080/authors
+Content-Type: application/json
+
+{
+  "nome": "Machado de Assis",
+  "email": "machado@email.com"
+}
+
+Criar Livro
+http
+
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "titulo": "Dom Casmurro",
+  "isbn": "9788535914843",
+  "autorId": 1
+}
+
+Listar Livros por Autor
+http
+
+GET http://localhost:8080/authors/1/books
+
+🧪 Testando a API
+Com Insomnia/Postman
+
+Importe a coleção de endpoints e teste todas as operações CRUD.
+Com curl
+bash
+
+# Listar autores
+curl http://localhost:8080/authors
+
+# Criar autor
+curl -X POST http://localhost:8080/authors \
+  -H "Content-Type: application/json" \
+  -d '{"nome": "Teste", "email": "teste@email.com"}'
+
+🗂️ Estrutura do Projeto
+
+src/
+├── main/
+│   ├── java/
+│   │   └── br/
+│   │       └── com/
+│   │           └── fiap/
+│   │               └── umtdspo/
+│   │                   ├── domain/
+│   │                   │   ├── model/
+│   │                   │   ├── repository/
+│   │                   │   ├── service/
+│   │                   │   └── exception/
+│   │                   ├── application/
+│   │                   │   └── service/
+│   │                   ├── infrastructure/
+│   │                   │   ├── api/rest/
+│   │                   │   ├── persistence/
+│   │                   │   ├── config/
+│   │                   │   └── exception/
+│   │                   └── interfaces/
+│   │                       ├── controller/
+│   │                       ├── dto/
+│   │                       └── mapper/
+│   └── resources/
+│       └── application.properties
+└── test/
+
+🔧 Desenvolvimento
+Comandos Úteis
+bash
+
+# Desenvolvimento com hot reload
+mvn quarkus:dev
+
+# Compilar
+mvn clean compile
+
+# Executar testes
+mvn test
+
+# Empacotar
+mvn package
+
+# Verificar dependências
+mvn dependency:tree
+
+Modo Desenvolvimento
+
+O Quarkus oferece hot reload durante o desenvolvimento. Basta salvar o arquivo e as mudanças são aplicadas automaticamente.
+📊 Modelo de Dados
+Autor
+
+    ID_AUTOR (PK): Identificador único
+
+    NM_AUTOR: Nome do autor
+
+    NM_EMAIL: Email único do autor
+
+Livro
+
+    ID_LIVRO (PK): Identificador único
+
+    NM_TITULO: Título do livro
+
+    CD_ISBN: ISBN único do livro
+
+    ID_AUTOR (FK): Referência ao autor
+
+🤝 Contribuindo
+
+    Fork o projeto
+
+    Crie uma branch para sua feature (git checkout -b feature/AmazingFeature)
+
+    Commit suas mudanças (git commit -m 'Add some AmazingFeature')
+
+    Push para a branch (git push origin feature/AmazingFeature)
+
+    Abra um Pull Request
+
+📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para detalhes.
+👥 Autores
+
+    Seu Nome - seu-usuario
+
+🙏 Agradecimentos
+
+    Equipe FIAP
+
+    Comunidade Quarkus
+
+    Oracle Database
+
+**Agora está completo e formatado corretamente!** 🎉 
+
+**Dica:** Quando for criar no GitHub, você pode:
+1. Criar o repositório vazio no GitHub
+2. Fazer upload dos arquivos `.gitignore` e `README.md` pela interface web
+3. Ou usar os comandos git que te mostrei anteriormente
+
+O README ficará bonito e profissional no GitHub! ✨
