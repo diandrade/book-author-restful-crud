@@ -2,16 +2,20 @@
 
 Uma API RESTful desenvolvida com **Quarkus** para gerenciamento de autores e livros, seguindo os princípios da Clean Architecture.
 
+---
+
 ## 🚀 Tecnologias
 
-- **Java 21** - Linguagem de programação
-- **Quarkus 3.28.4** - Framework Supersonic Subatomic Java
-- **Oracle Database** - Banco de dados relacional
-- **JAX-RS** - API REST
-- **JDBC** - Acesso a dados
-- **Maven** - Gerenciamento de dependências
+- **Java 21** – Linguagem de programação  
+- **Quarkus 3.28.4** – Framework Supersonic Subatomic Java  
+- **Oracle Database** – Banco de dados relacional  
+- **JAX-RS** – API REST  
+- **JDBC** – Acesso a dados  
+- **Maven** – Gerenciamento de dependências
 
-## 🏗️ Arquitetura
+---
+
+## 🏗️ Arquitetura do Projeto
 
 📦 umtdspo
 ├── 📁 domain # Camada de Domínio
@@ -30,40 +34,48 @@ Uma API RESTful desenvolvida com **Quarkus** para gerenciamento de autores e liv
 ├── controller # Controllers
 ├── dto # Data Transfer Objects
 └── mapper # Mappers (DTO ↔ Domain)
-text
+
+
+---
 
 ## 📋 Endpoints da API
 
 ### 👥 Autores
 
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| `POST` | `/authors` | Criar novo autor |
-| `GET` | `/authors` | Listar todos autores |
-| `GET` | `/authors/{id}` | Buscar autor por ID |
-| `GET` | `/authors/{id}/books` | Listar livros do autor |
-| `PUT` | `/authors/{id}` | Atualizar autor |
-| `DELETE` | `/authors/{id}` | Deletar autor |
+| Método   | Endpoint                  | Descrição                |
+|----------|---------------------------|--------------------------|
+| `POST`   | `/authors`                | Criar novo autor         |
+| `GET`    | `/authors`                | Listar todos autores     |
+| `GET`    | `/authors/{id}`           | Buscar autor por ID      |
+| `GET`    | `/authors/{id}/books`     | Listar livros do autor   |
+| `PUT`    | `/authors/{id}`           | Atualizar autor          |
+| `DELETE` | `/authors/{id}`           | Deletar autor            |
 
 ### 📖 Livros
 
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| `POST` | `/books` | Criar novo livro |
-| `GET` | `/books` | Listar todos livros |
-| `GET` | `/books/{id}` | Buscar livro por ID |
-| `GET` | `/books/author/{authorId}` | Listar livros por autor |
-| `PUT` | `/books/{id}` | Atualizar livro |
-| `DELETE` | `/books/{id}` | Deletar livro |
+| Método   | Endpoint                      | Descrição                 |
+|----------|-------------------------------|---------------------------|
+| `POST`   | `/books`                      | Criar novo livro          |
+| `GET`    | `/books`                      | Listar todos livros       |
+| `GET`    | `/books/{id}`                 | Buscar livro por ID       |
+| `GET`    | `/books/author/{authorId}`    | Listar livros por autor   |
+| `PUT`    | `/books/{id}`                 | Atualizar livro           |
+| `DELETE` | `/books/{id}`                 | Deletar livro             |
+
+---
 
 ## 🛠️ Como Executar
 
-### Pré-requisitos
-- Java 21
-- Maven 3.8+
+### ✅ Pré-requisitos
+
+- Java 21  
+- Maven 3.8+  
 - Oracle Database
 
+---
+
 ### 1. Clone o repositório
+
 ```bash
 git clone https://github.com/seu-usuario/restful-crud.git
 cd restful-crud
@@ -71,7 +83,6 @@ cd restful-crud
 2. Configure o banco de dados
 
 Crie as tabelas no Oracle:
-sql
 
 -- Tabela de Autores
 CREATE TABLE T_CREST_AUTOR (
@@ -91,8 +102,7 @@ CREATE TABLE T_CREST_LIVRO (
 
 3. Configure a conexão
 
-Edite src/main/resources/application.properties:
-properties
+Edite o arquivo src/main/resources/application.properties:
 
 quarkus.datasource.db-kind=oracle
 quarkus.datasource.username=seu_usuario
@@ -100,21 +110,22 @@ quarkus.datasource.password=sua_senha
 quarkus.datasource.jdbc.url=jdbc:oracle:thin:@localhost:1521:XE
 
 4. Execute a aplicação
-bash
 
-# Modo desenvolvimento
+Modo desenvolvimento:
+
 mvn quarkus:dev
 
-# Ou compile e execute
+Ou compile e execute:
+
 mvn clean compile
 mvn quarkus:dev
 
 5. Acesse a API
 
-A API estará disponível em: http://localhost:8080
+A aplicação estará disponível em:
+http://localhost:8080
 📝 Exemplos de Uso
 Criar Autor
-http
 
 POST http://localhost:8080/authors
 Content-Type: application/json
@@ -125,7 +136,6 @@ Content-Type: application/json
 }
 
 Criar Livro
-http
 
 POST http://localhost:8080/books
 Content-Type: application/json
@@ -137,16 +147,17 @@ Content-Type: application/json
 }
 
 Listar Livros por Autor
-http
 
 GET http://localhost:8080/authors/1/books
 
 🧪 Testando a API
 Com Insomnia/Postman
 
-Importe a coleção de endpoints e teste todas as operações CRUD.
+    Importe a coleção de endpoints.
+
+    Teste todas as operações CRUD.
+
 Com curl
-bash
 
 # Listar autores
 curl http://localhost:8080/authors
@@ -187,7 +198,6 @@ src/
 
 🔧 Desenvolvimento
 Comandos Úteis
-bash
 
 # Desenvolvimento com hot reload
 mvn quarkus:dev
@@ -204,9 +214,8 @@ mvn package
 # Verificar dependências
 mvn dependency:tree
 
-Modo Desenvolvimento
+    O Quarkus oferece hot reload durante o desenvolvimento. Basta salvar o arquivo e as mudanças são aplicadas automaticamente.
 
-O Quarkus oferece hot reload durante o desenvolvimento. Basta salvar o arquivo e as mudanças são aplicadas automaticamente.
 📊 Modelo de Dados
 Autor
 
@@ -230,20 +239,28 @@ Livro
 
     Fork o projeto
 
-    Crie uma branch para sua feature (git checkout -b feature/AmazingFeature)
+    Crie uma branch para sua feature:
 
-    Commit suas mudanças (git commit -m 'Add some AmazingFeature')
+git checkout -b feature/AmazingFeature
 
-    Push para a branch (git push origin feature/AmazingFeature)
+Commit suas mudanças:
+
+git commit -m 'Add some AmazingFeature'
+
+Push para a branch:
+
+    git push origin feature/AmazingFeature
 
     Abra um Pull Request
 
 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para detalhes.
-👥 Autores
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE
 
-    Seu Nome - seu-usuario
+para detalhes.
+👥 Autor
+
+    Seu Nome – @seu-usuario
 
 🙏 Agradecimentos
 
@@ -252,12 +269,3 @@ Este projeto está sob a licença MIT. Veja o arquivo LICENSE para detalhes.
     Comunidade Quarkus
 
     Oracle Database
-
-**Agora está completo e formatado corretamente!** 🎉 
-
-**Dica:** Quando for criar no GitHub, você pode:
-1. Criar o repositório vazio no GitHub
-2. Fazer upload dos arquivos `.gitignore` e `README.md` pela interface web
-3. Ou usar os comandos git que te mostrei anteriormente
-
-O README ficará bonito e profissional no GitHub! ✨
