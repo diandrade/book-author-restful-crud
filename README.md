@@ -64,66 +64,18 @@ Uma API RESTful desenvolvida com **Quarkus** para gerenciamento de autores e liv
 
 ---
 
-## 🛠️ Como Executar
+🛠️ Como Executar
+✅ Pré-requisitos
 
-### ✅ Pré-requisitos
+Java 21
 
-- Java 21  
-- Maven 3.8+  
-- Oracle Database
+Maven 3.8+
 
----
+Oracle Database
 
-### 1. Clone o repositório
+📦 Passo a Passo
 
-```bash
-git clone https://github.com/seu-usuario/restful-crud.git
-cd restful-crud
-
-2. Configure o banco de dados
-
-Crie as tabelas no Oracle:
-
--- Tabela de Autores
-CREATE TABLE T_CREST_AUTOR (
-    ID_AUTOR NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    NM_AUTOR VARCHAR2(100) NOT NULL,
-    NM_EMAIL VARCHAR2(255) UNIQUE NOT NULL
-);
-
--- Tabela de Livros
-CREATE TABLE T_CREST_LIVRO (
-    ID_LIVRO NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    NM_TITULO VARCHAR2(255) NOT NULL,
-    CD_ISBN VARCHAR2(13) NOT NULL,
-    ID_AUTOR NUMBER NOT NULL,
-    CONSTRAINT FK_LIVRO_AUTOR FOREIGN KEY (ID_AUTOR) REFERENCES T_CREST_AUTOR(ID_AUTOR)
-);
-
-3. Configure a conexão
-
-Edite o arquivo src/main/resources/application.properties:
-
-quarkus.datasource.db-kind=oracle
-quarkus.datasource.username=seu_usuario
-quarkus.datasource.password=sua_senha
-quarkus.datasource.jdbc.url=jdbc:oracle:thin:@localhost:1521:XE
-
-4. Execute a aplicação
-
-Modo desenvolvimento:
-
-mvn quarkus:dev
-
-Ou compile e execute:
-
-mvn clean compile
-mvn quarkus:dev
-
-5. Acesse a API
-
-A aplicação estará disponível em:
-http://localhost:8080
+Clone o repositório
 📝 Exemplos de Uso
 Criar Autor
 
